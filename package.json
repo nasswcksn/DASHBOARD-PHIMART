@@ -1,0 +1,29 @@
+<<<<<<< HEAD
+{
+  "name": "dashboard-phimart",
+  "version": "1.0.0",
+  "description": "Dashboard PHIMart Minimalist",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "express": "^4.18.2"
+  }
+}
+=======
+{
+  "name": "dashboard-phimart",
+  "version": "1.0.0",
+  "description": "Dashboard PHIMart Minimalist",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "express": "^4.18.2"
+  }
+}
+>>>>>>> 1366ce4f3b125e5ed9ae851d8f7630f8711d8a68

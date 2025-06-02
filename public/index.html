@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard PHIMart</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="header-container">
+    <div class="identity">
+      <span>Anas Wicaksono | NRP: 3323600029 | Kelas: 2 D4 SDT A</span>
+    </div>
+    <h1>Dashboard Penjualan Produk PHIMart</h1>
+    <div class="theme-switch-wrapper">
+      <span>Light</span>
+      <label class="theme-switch" for="checkbox">
+        <input type="checkbox" id="checkbox" />
+        <div class="slider round"></div>
+      </label>
+      <span>Dark</span>
+    </div>
+  </div>
+  
+  <div class="dashboard-container">
+    <div class="dashboard-main">
+      <div class="cards">
+        <div class="card" id="total-penjualan"></div>
+        <div class="card" id="total-produk"></div>
+        <div class="card" id="kategori-dominan"></div>
+        <div class="card" id="jumlah-transaksi"></div>
+      </div>
+      
+      <div class="chart-section">
+        <div class="chart-container trend">
+          <canvas id="trendChart"></canvas>
+        </div>
+      </div>
+      
+      <div class="chart-row">
+        <div class="chart-container">
+          <canvas id="barChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="incomeChart"></canvas>
+        </div>
+        <div class="chart-container" id="boxplot-area">
+          <!-- Boxplot table will be injected here -->
+        </div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-container">
+          <canvas id="branchSalesChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="pieChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <canvas id="scatterClusterChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="identity-footer">
+      Anas Wicaksono | NRP: 3323600029 | Kelas: 2 D4 SDT A
+    </div>
+    <div class="copyright">
+      &copy; 2025 PHIMart Dashboard &mdash; Design inspired by modern minimalist dashboards
+    </div>
+  </footer>
+  
+  <script src="chart.js"></script>
+  <script>
+    // Dark mode toggle functionality
+    const toggleSwitch = document.querySelector('#checkbox');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    let lastData = null, lastCluster = null;
+
+    if (currentTheme) {
+      document.body.classList.toggle('dark-mode', currentTheme === 'dark');
+      toggleSwitch.checked = currentTheme === 'dark';
+    }
+
+    // Fungsi untuk hapus semua chart dan render ulang agar warna update
+    function rerenderAllCharts() {
+      if (window.charts && window.charts.length) {
+        window.charts.forEach(chart => chart.destroy());
+        window.charts = [];
+      }
+      // Hapus boxplot
+      const boxplotArea = document.getElementById('boxplot-area');
+      if (boxplotArea) boxplotArea.innerHTML = '';
+      if (lastData && lastCluster) {
+        renderCards(lastData, lastCluster);
+        renderTrendChart(lastData);
+        renderPieChart(lastCluster);
+        renderBarChart(lastCluster);
+        renderIncomeChart(lastCluster);
+        renderBoxplotCluster(lastCluster);
+        renderBranchSales(lastData);
+        renderScatterCluster(lastCluster);
+      }
+    }
+
+    // Simpan data terakhir saat fetchData selesai
+    (async function() {
+      const { data, cluster } = await fetchData();
+      lastData = data;
+      lastCluster = cluster;
+    })();
+
+    toggleSwitch.addEventListener('change', function(e) {
+      if (e.target.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+      }
+      // Render ulang semua chart agar warna langsung update
+      setTimeout(() => rerenderAllCharts(), 100);
+    });
+
+    // Store chart instances for theme updates
+    window.charts = [];
+  </script>
+</body>
+</html>
