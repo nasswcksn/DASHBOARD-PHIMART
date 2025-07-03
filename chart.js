@@ -17,7 +17,7 @@ async function fetchData() {
   // Pastikan nama file dan path-nya benar!
   const data = await fetchAndParseCsv('./data/data_phimart.csv');
   const cluster = await fetchAndParseCsv('./data/cluster_phimart.csv');
-  
+
   return { data, cluster };
 }
 
@@ -81,7 +81,7 @@ function renderCards(data, cluster) {
     acc[cur.Cluster] = (acc[cur.Cluster] || 0) + 1; return acc;
   }, {})).sort((a, b) => b[1] - a[1])[0][0];
   const kategoriMap = getKategoriMap();
-  
+
   document.getElementById('total-penjualan').innerHTML = `<h2>${totalPenjualan.toLocaleString()}</h2><p>Total Penjualan</p>`;
   document.getElementById('total-produk').innerHTML = `<h2>${totalProduk}</h2><p>Jumlah Produk</p>`;
   document.getElementById('kategori-dominan').innerHTML = `<h2>${kategoriMap[kategoriDominan]}</h2><p>Kategori Dominan</p>`;
@@ -91,24 +91,24 @@ function renderCards(data, cluster) {
 function renderTrendChart(data) {
   const trend = {};
   data.forEach(d => {
-    const key = `${d.tahun}-${d.bulan.padStart(2, '0')}`;
+    const key = `${d.tahun}-${String(d.bulan).padStart(2, '0')}`;
     trend[key] = (trend[key] || 0) + parseInt(d.total_terjual);
   });
   const labels = Object.keys(trend).sort();
   const values = labels.map(l => trend[l]);
-  
+
   const ctx = document.getElementById('trendChart').getContext('2d');
   const chart = new Chart(ctx, {
     type: 'line',
-    data: { 
-      labels, 
+    data: {
+      labels,
       datasets: [{
-        label: 'Total Penjualan', 
-        data: values, 
+        label: 'Total Penjualan',
+        data: values,
         borderColor: getChartColors().bar.gradient[0],
-        backgroundColor: function(context) {
+        backgroundColor: function (context) {
           const chart = context.chart;
-          const {ctx, chartArea} = chart;
+          const { ctx, chartArea } = chart;
           if (!chartArea) return 'rgba(74,222,128,0.10)'; // hijau muda, opasitas 0.10
           // gradasi hijau muda ke biru muda, opasitas 0.18
           const grad = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
@@ -119,14 +119,14 @@ function renderTrendChart(data) {
         borderWidth: 3,
         tension: 0.3,
         fill: true
-      }] 
+      }]
     },
-    options: { 
+    options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { 
-        title: { 
-          display: true, 
+      plugins: {
+        title: {
+          display: true,
           text: 'Tren Penjualan Bulanan',
           font: { size: 15 },
           color: getTextColor()
@@ -156,28 +156,28 @@ function renderPieChart(cluster) {
   const ctx = document.getElementById('pieChart');
   const chart = new Chart(ctx, {
     type: 'doughnut',
-    data: { 
-      labels: Object.keys(count), 
+    data: {
+      labels: Object.keys(count),
       datasets: [{
-        data: Object.values(count), 
+        data: Object.values(count),
         backgroundColor: getChartColors().pie,
         borderWidth: 0,
         hoverOffset: 15
-      }] 
+      }]
     },
-    options: { 
+    options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { 
-        title: { 
-          display: true, 
+      plugins: {
+        title: {
+          display: true,
           text: 'Distribusi Kategori Produk',
           font: { size: 24 },
           color: getTextColor()
         },
         legend: {
           position: 'bottom',
-          labels: { 
+          labels: {
             padding: 20,
             color: getTextColor()
           }
@@ -194,28 +194,28 @@ function renderBarChart(cluster) {
   const ctx = document.getElementById('barChart').getContext('2d');
   const chart = new Chart(ctx, {
     type: 'bar',
-    data: { 
-      labels: sorted.map(d => d.nama_produk), 
+    data: {
+      labels: sorted.map(d => d.nama_produk),
       datasets: [{
-        label: 'Total Terjual', 
-        data: sorted.map(d => d.total_terjual), 
-        backgroundColor: function(context) {
+        label: 'Total Terjual',
+        data: sorted.map(d => d.total_terjual),
+        backgroundColor: function (context) {
           const chart = context.chart;
-          const {ctx, chartArea} = chart;
+          const { ctx, chartArea } = chart;
           if (!chartArea) return getChartColors().bar.solid;
           return getBarGradient(ctx, chartArea, getChartColors().bar.gradient);
         },
         borderRadius: 6,
         borderSkipped: false
-      }] 
+      }]
     },
-    options: { 
+    options: {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { 
-        title: { 
-          display: true, 
+      plugins: {
+        title: {
+          display: true,
           text: '10 Produk Terlaris',
           font: { size: 24 },
           color: getTextColor()
@@ -242,28 +242,28 @@ function renderIncomeChart(cluster) {
   const ctx = document.getElementById('incomeChart').getContext('2d');
   const chart = new Chart(ctx, {
     type: 'bar',
-    data: { 
-      labels: sorted.map(d => d.nama_produk), 
+    data: {
+      labels: sorted.map(d => d.nama_produk),
       datasets: [{
-        label: 'Total Pendapatan', 
-        data: sorted.map(d => d.total_bayar), 
-        backgroundColor: function(context) {
+        label: 'Total Pendapatan',
+        data: sorted.map(d => d.total_bayar),
+        backgroundColor: function (context) {
           const chart = context.chart;
-          const {ctx, chartArea} = chart;
+          const { ctx, chartArea } = chart;
           if (!chartArea) return getChartColors().income.solid;
           return getBarGradient(ctx, chartArea, getChartColors().income.gradient);
         },
         borderRadius: 6,
         borderSkipped: false
-      }] 
+      }]
     },
-    options: { 
+    options: {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { 
-        title: { 
-          display: true, 
+      plugins: {
+        title: {
+          display: true,
           text: '10 Produk Pendapatan Tertinggi',
           font: { size: 24 },
           color: getTextColor()
@@ -296,21 +296,21 @@ function renderBranchSales(data) {
   const ctx = document.getElementById('branchSalesChart');
   const chart = new Chart(ctx, {
     type: 'bar',
-    data: { 
-      labels, 
+    data: {
+      labels,
       datasets: [{
-        label: 'Total Penjualan per Cabang', 
-        data: values, 
+        label: 'Total Penjualan per Cabang',
+        data: values,
         backgroundColor: getChartColors().branch,
         borderRadius: 8
-      }] 
+      }]
     },
-    options: { 
+    options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { 
-        title: { 
-          display: true, 
+      plugins: {
+        title: {
+          display: true,
           text: 'Penjualan per Cabang',
           font: { size: 24 },
           color: getTextColor()
@@ -337,22 +337,22 @@ function renderBranchSales(data) {
 // Boxplot tetap HTML table, tidak perlu chart.js
 function renderBoxplotCluster(cluster) {
   const kategoriMap = { "0": "Tidak Laris", "1": "Sedang", "2": "Laris" };
-  const clusters = [0,1,2];
-  
+  const clusters = [0, 1, 2];
+
   const boxData = clusters.map(cl => {
-    const vals = cluster.filter(d=>d.Cluster==cl).map(d=>+d.total_terjual).sort((a,b)=>a-b);
-    if (vals.length === 0) return {label:kategoriMap[cl], min:0, q1:0, med:0, q3:0, max:0};
-    
-    const q1 = vals[Math.floor(vals.length*0.25)];
-    const med = vals[Math.floor(vals.length*0.5)];
-    const q3 = vals[Math.floor(vals.length*0.75)];
-    
-    return {label:kategoriMap[cl], min:vals[0], q1, med, q3, max:vals[vals.length-1]};
+    const vals = cluster.filter(d => d.Cluster == cl).map(d => +d.total_terjual).sort((a, b) => a - b);
+    if (vals.length === 0) return { label: kategoriMap[cl], min: 0, q1: 0, med: 0, q3: 0, max: 0 };
+
+    const q1 = vals[Math.floor(vals.length * 0.25)];
+    const med = vals[Math.floor(vals.length * 0.5)];
+    const q3 = vals[Math.floor(vals.length * 0.75)];
+
+    return { label: kategoriMap[cl], min: vals[0], q1, med, q3, max: vals[vals.length - 1] };
   });
-  
+
   let html = '<div class="chart-container" id="boxplot-container"><h3>Boxplot Penjualan per Cluster</h3>';
   html += '<div class="table-responsive"><table><thead><tr><th>Cluster</th><th>Min</th><th>Q1</th><th>Median</th><th>Q3</th><th>Max</th></tr></thead><tbody>';
-  
+
   boxData.forEach(b => {
     html += `<tr>
       <td>${b.label}</td>
@@ -363,7 +363,7 @@ function renderBoxplotCluster(cluster) {
       <td>${b.max}</td>
     </tr>`;
   });
-  
+
   html += '</tbody></table></div></div>';
   document.getElementById('boxplot-area').innerHTML = html;
 }
@@ -409,15 +409,15 @@ function renderScatterCluster(cluster) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        title: { 
-          display: true, 
+        title: {
+          display: true,
           text: 'Scatter Plot Total Terjual vs Total Bayar per Produk',
           font: { size: 24 },
           color: getTextColor()
         },
         tooltip: {
           callbacks: {
-            label: function(context) {
+            label: function (context) {
               const d = context.raw;
               return `${d.label}: Terjual ${d.x}, Bayar ${d.y}`;
             }
@@ -425,18 +425,18 @@ function renderScatterCluster(cluster) {
         }
       },
       scales: {
-        x: { 
-          title: { 
-            display: true, 
+        x: {
+          title: {
+            display: true,
             text: 'Total Terjual',
             color: getTextColor()
           },
           grid: { color: getGridColor() },
           ticks: { color: getTextColor() }
         },
-        y: { 
-          title: { 
-            display: true, 
+        y: {
+          title: {
+            display: true,
             text: 'Total Bayar',
             color: getTextColor()
           },
