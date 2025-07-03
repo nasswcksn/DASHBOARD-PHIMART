@@ -50,5 +50,8 @@ package.json        # Konfigurasi project dan dependensi
 ## Author
 Anas Wicaksono
 
+## Visit Dashboard 
+https://nasswcksn.github.io/dashboard_phimart/
+
 ---
 Dashboard ini dibuat untuk kebutuhan tugas Data Warehouse PHIMart.
