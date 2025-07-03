@@ -325,103 +325,123 @@ footer {
 }
 
 /* Responsiveness */
+
+/* RESPONSIVE DESIGN IMPROVEMENTS */
 @media (max-width: 1200px) {
   .dashboard-container {
     flex-direction: column;
+    padding: 0 1rem;
   }
-  
-  .dashboard-side {
-    width: 100%;
-    min-width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
+  .dashboard-main {
+    gap: 1.5rem;
   }
-  
-  .dashboard-side .chart-container {
-    flex: 1;
-    min-width: 300px;
-  }
-  
   .chart-row {
     grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
   }
-  .chart-container {
-    min-height: 220px;
-    height: 220px;
+  .chart-container, .chart-container.trend {
+    min-height: 180px;
+    height: 180px;
+    padding: 0.8rem 0.5rem 0.5rem 0.5rem;
   }
 }
 
 @media (max-width: 900px) {
+  .dashboard-container {
+    padding: 0 0.5rem;
+  }
+  .cards {
+    gap: 1rem;
+  }
   .chart-row {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
-  
-  .dashboard-side {
-    flex-direction: column;
+  .chart-container, .chart-container.trend {
+    min-height: 140px;
+    height: 140px;
+    padding: 0.5rem 0.2rem 0.2rem 0.2rem;
   }
-  .chart-container {
-    min-height: 180px;
-    height: 180px;
-  }
-  .chart-container.trend {
-    min-height: 160px;
-    height: 160px;
+  .card {
+    padding: 1.2rem 0.8rem;
   }
 }
 
 @media (max-width: 768px) {
   body {
-    padding: 1.5rem;
+    padding: 0.5rem;
   }
-  
   .header-container {
-    padding-top: 2rem;
+    padding-top: 1rem;
+    flex-direction: column;
+    align-items: stretch;
   }
-  
   .identity {
     position: static;
     text-align: center;
     border-radius: 8px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
   }
-  
   .theme-switch-wrapper {
     position: static;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     border-radius: 8px;
+    font-size: 0.95rem;
   }
-  
   h1 {
-    font-size: 1.8rem;
-    margin: 1rem 0 2rem;
+    font-size: 1.3rem;
+    margin: 0.5rem 0 1.2rem;
+    padding-bottom: 0.5rem;
   }
-  
   .card h2 {
-    font-size: 2rem;
+    font-size: 1.3rem;
   }
-  
+  .card {
+    padding: 1rem 0.5rem;
+  }
+  .chart-container, .chart-container.trend {
+    min-height: 100px;
+    height: 100px;
+    padding: 0.2rem 0.1rem 0.1rem 0.1rem;
+  }
   canvas {
-    height: 300px !important;
+    height: 120px !important;
+    min-height: 80px !important;
+  }
+  .boxplot-container table, .boxplot-container th, .boxplot-container td {
+    font-size: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
+  .dashboard-container {
+    padding: 0;
+  }
   .cards {
     grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
-  
   .card {
-    padding: 1.5rem 1rem;
+    padding: 0.7rem 0.3rem;
+    font-size: 0.95rem;
   }
-  
   th, td {
-    padding: 0.8rem;
-    font-size: 0.9rem;
+    padding: 0.5rem;
+    font-size: 0.8rem;
   }
-  
   .identity, .identity-footer {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+  }
+  .chart-container, .chart-container.trend {
+    min-height: 70px;
+    height: 70px;
+    padding: 0.1rem 0.05rem 0.05rem 0.05rem;
+  }
+  canvas {
+    height: 60px !important;
+    min-height: 40px !important;
   }
 }
 
