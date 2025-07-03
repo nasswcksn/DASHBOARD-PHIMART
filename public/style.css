@@ -1,8 +1,8 @@
 :root {
-  --primary: #ff6a00;
-  --primary-light: #ffb86c;
-  --secondary: #a259ff;
-  --accent: #ff6a00;
+  --primary: #4ade80; /* hijau muda */
+  --primary-light: #a7f3d0;
+  --secondary: #38bdf8; /* biru muda */
+  --accent: #38bdf8;
   --success: #4ade80;
   --warning: #fbbf24;
   --danger: #f87171;
@@ -12,20 +12,20 @@
   --border: #e2e8f0;
   --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   --card-bg: #ffffff;
-  --bg: linear-gradient(135deg, #f5f7ff 0%, #f8f9fa 100%);
-  --footer-bg: #f1f5ff;
+  --bg: linear-gradient(135deg, #e0f7fa 0%, #f0fdf4 100%);
+  --footer-bg: #e0f7fa;
   --header-bg: #ffffff;
-  --table-header: #f0f6ff;
+  --table-header: #e0f2fe;
   --text-dark: #2b2d42;
   --text-light: #4a5568;
   --chart-bg: #ffffff;
 }
 
 .dark-mode {
-  --primary: #ff6a00;
-  --primary-light: #ffb86c;
-  --secondary: #a259ff;
-  --accent: #a259ff;
+  --primary: #4ade80;
+  --primary-light: #a7f3d0;
+  --secondary: #38bdf8;
+  --accent: #38bdf8;
   --success: #4ade80;
   --warning: #fbbf24;
   --danger: #f87171;

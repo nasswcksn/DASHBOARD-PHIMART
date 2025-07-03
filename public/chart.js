@@ -9,24 +9,24 @@ function getKategoriMap() {
 }
 
 function getChartColors() {
-  // Color palette gradasi orange-ungu-pink sesuai referensi gambar
+  // Color palette gradasi hijau muda ke biru muda
   return {
     bar: {
-      gradient: ['#ff6a00', '#a259ff'], // orange to ungu
-      solid: '#ff6a00'
+      gradient: ['#4ade80', '#38bdf8'], // hijau muda ke biru muda
+      solid: '#4ade80'
     },
     bar2: {
-      gradient: ['#a259ff', '#ff6a00'], // ungu to orange
-      solid: '#a259ff'
+      gradient: ['#38bdf8', '#4ade80'], // biru muda ke hijau muda
+      solid: '#38bdf8'
     },
     income: {
-      gradient: ['#ff6a00', '#ff3cac'], // orange to pink
-      solid: '#ff3cac'
+      gradient: ['#4ade80', '#38bdf8'], // hijau muda ke biru muda
+      solid: '#38bdf8'
     },
-    pie: ['#ff6a00', '#a259ff', '#ff3cac'], // orange, ungu, pink
-    branch: '#ffb86c', // soft orange
-    scatter: ['#ff6a00', '#a259ff', '#ff3cac'], // tiap cluster: orange, ungu, pink
-    box: '#ff3cac', // pink
+    pie: ['#4ade80', '#38bdf8', '#a7f3d0'], // hijau muda, biru muda, hijau pastel
+    branch: '#a7f3d0', // hijau pastel
+    scatter: ['#4ade80', '#38bdf8', '#a7f3d0'], // tiap cluster: hijau muda, biru muda, hijau pastel
+    box: '#38bdf8', // biru muda
     gridLight: '#e2e8f0',
     gridDark: '#fff',
     textLight: '#2b2d42',
@@ -92,8 +92,12 @@ function renderTrendChart(data) {
         backgroundColor: function(context) {
           const chart = context.chart;
           const {ctx, chartArea} = chart;
-          if (!chartArea) return 'rgba(255,106,0,0.1)';
-          return getBarGradient(ctx, chartArea, getChartColors().bar.gradient);
+          if (!chartArea) return 'rgba(74,222,128,0.10)'; // hijau muda, opasitas 0.10
+          // gradasi hijau muda ke biru muda, opasitas 0.18
+          const grad = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+          grad.addColorStop(0, 'rgba(74,222,128,0.18)');
+          grad.addColorStop(1, 'rgba(56,189,248,0.18)');
+          return grad;
         },
         borderWidth: 3,
         tension: 0.3,
