@@ -1,6 +1,23 @@
+// KODE BARU UNTUK MEMBACA CSV
 async function fetchData() {
-  const data = await fetch('/api/data').then(res => res.json());
-  const cluster = await fetch('/api/cluster').then(res => res.json());
+  // Fungsi pembantu untuk mengambil dan mem-parsing file CSV
+  const fetchAndParseCsv = async (filePath) => {
+    const response = await fetch(filePath);
+    const csvText = await response.text();
+    // Papa.parse mengubah teks CSV menjadi data yang bisa dibaca JavaScript
+    const parsed = Papa.parse(csvText, {
+      header: true,          // Baris pertama CSV adalah nama kolom
+      dynamicTyping: true,   // Otomatis deteksi angka/teks
+      skipEmptyLines: true   // Abaikan baris kosong
+    });
+    return parsed.data;
+  };
+
+  // Panggil fungsi untuk kedua file CSV Anda.
+  // Pastikan nama file dan path-nya benar!
+  const data = await fetchAndParseCsv('./data/data_phimart.csv');
+  const cluster = await fetchAndParseCsv('./data/cluster_phimart.csv');
+  
   return { data, cluster };
 }
 
